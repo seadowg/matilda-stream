@@ -25,8 +25,7 @@ class Stream
   end
   
   def take(n)
-    stream = Stream.new(self.head) { @tail_block.call }
-    stream.set_limit(n)
+    stream = FiniteStream.new(n, self.head) { @tail_block.call }
     stream
   end
   
@@ -44,9 +43,13 @@ class Stream
     nil
   end
   
-  protected
+  private 
   
-  def set_limit(n)
-    @length = n
+  class FiniteStream < Stream
+    def initialize(limit, head, &tail_block)
+      @length = limit
+      @head = head
+      @tail_block = tail_block
+    end
   end
 end

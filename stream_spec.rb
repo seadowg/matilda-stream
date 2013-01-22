@@ -20,7 +20,7 @@ describe Stream do
   
   describe "#tail" do
     it "returns another Stream" do
-      @stream.tail.class.must_equal Stream
+      @stream.tail.kind_of?(Stream).must_equal true
     end
     
     it "returns a Stream with the next element as its head" do
@@ -37,7 +37,7 @@ describe Stream do
   
   describe "#take(n)" do
     it "returns another Stream" do
-      @stream.take(10).class.must_equal Stream
+      @stream.take(10).kind_of?(Stream).must_equal true
     end
     
     it "returns a Stream with the correct #length" do
