@@ -33,14 +33,18 @@ class Stream
   end
   
   def each
+    last_stream = self
+    
     if @length
-      last_stream = self
       @length.times {
         yield last_stream.head
         last_stream = last_stream.tail
       }
     else
-      while true do end
+      while true do
+        yield last_stream.head
+        last_stream = last_stream.tail
+      end
     end
     
     nil
