@@ -4,7 +4,6 @@ class Stream
   def initialize(head, &block)
     @head = head
     @tail_block = block
-    @length = -1
   end
   
   def tail
@@ -30,15 +29,19 @@ class Stream
   end
   
   def length
-    @length
+    @length || while true do end
   end
   
   def each
-    last_stream = self
-    @length.times {
-      yield last_stream.head
-      last_stream = last_stream.tail
-    }
+    if @length
+      last_stream = self
+      @length.times {
+        yield last_stream.head
+        last_stream = last_stream.tail
+      }
+    else
+      while true do end
+    end
     
     nil
   end

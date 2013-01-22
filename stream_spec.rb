@@ -78,11 +78,7 @@ describe Stream do
     end
   end
   
-  describe "#length" do
-    it "returns -1 for an ifinite array" do
-      @stream.length.must_equal -1
-    end
-    
+  describe "#length" do    
     it "returns the lenght for a finite array" do
       @stream.take(5).length.must_equal 5
     end
