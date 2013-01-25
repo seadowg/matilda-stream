@@ -29,22 +29,15 @@ class Stream
   end
   
   def length
-    @length || while true do end
+    while true do end
   end
   
   def each
     last_stream = self
-    
-    if @length
-      @length.times {
-        yield last_stream.head
-        last_stream = last_stream.tail
-      }
-    else
-      while true do
-        yield last_stream.head
-        last_stream = last_stream.tail
-      end
+
+    while true do
+      yield last_stream.head
+      last_stream = last_stream.tail
     end
     
     nil
@@ -57,6 +50,21 @@ class Stream
       @length = limit
       @head = head
       @tail_block = tail_block
+    end
+    
+    def length
+      @length
+    end
+    
+    def each
+      last_stream = self
+      
+      @length.times {
+        yield last_stream.head
+        last_stream = last_stream.tail
+      }
+      
+      nil
     end
   end
 end
