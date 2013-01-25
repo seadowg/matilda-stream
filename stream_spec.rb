@@ -33,6 +33,16 @@ describe Stream do
     it "calculates the nth element of the stream" do
       @stream[999].must_equal 1000
     end
+    
+    it "returns nil for negative n" do
+      @stream[-1].must_equal nil
+    end
+    
+    describe "for a finite Stream" do
+      it "returns nil for n greater than the limit of the Stream" do
+        @stream.take(10)[10].must_equal nil
+      end
+    end
   end
   
   describe "#take(n)" do

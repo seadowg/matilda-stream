@@ -13,6 +13,8 @@ class Stream
   def [](n)
     if n == 0
       self.head
+    elsif n < 0
+      nil
     else
       last_stream = self
       n.times {
@@ -50,6 +52,14 @@ class Stream
       @length = limit
       @head = head
       @tail_block = tail_block
+    end
+    
+    def [](n)
+      if n >= @length
+        nil
+      else
+        super(n)
+      end
     end
     
     def length
