@@ -22,8 +22,8 @@ You can access streams like any other data structure:
     integers[999999] # => 999998
 
 Each value will be lazily calculated by materializing the Streams values
-until the requested value. Streams are stateless the Stream will
-calculate for every access.
+until the requested value. Streams are stateless so a Stream will
+recalculate for every access.
 
 You can also create finite Streams from infinite ones:
 
