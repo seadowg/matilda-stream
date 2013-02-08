@@ -44,6 +44,12 @@ class Stream
     
     nil
   end
+
+  def map(&block)
+    Stream.new(yield head) do
+      tail.map(&block)
+    end
+  end
   
   private 
   
