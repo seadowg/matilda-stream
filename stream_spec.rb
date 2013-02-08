@@ -71,7 +71,7 @@ describe Stream do
     describe "for a finite Stream" do
       it "returns a Stream with length limit if n > limit" do
         original = @stream.take(10)
-        original.length.must_equal 10
+        original.take(100).length.must_equal 10
       end
     end
   end
