@@ -92,5 +92,13 @@ class Stream
 
       nil
     end
+
+    def map(&block)
+      super.take(@length)
+    end
+
+    def filter(&block)
+      super.take(@length)
+    end
   end
 end
