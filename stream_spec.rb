@@ -106,4 +106,17 @@ describe Stream do
       mapped[1000].must_equal(1002)
     end
   end
+
+  describe "#filter(func)" do
+    it "returns a new Stream" do
+      @stream.filter { |i| i % 2 == 0 }.kind_of?(Stream).must_equal true
+    end
+
+    it "returns a new Stream with only elements matching the predicate" do
+      filtered = @stream.filter { |i| i % 2 == 0 }
+      filtered[0].must_equal 2
+      filtered[1].must_equal 4
+      filtered[3].must_equal 8
+    end
+  end
 end
