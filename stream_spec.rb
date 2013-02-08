@@ -67,6 +67,13 @@ describe Stream do
         true.must_equal true
       end
     end
+
+    describe "for a finite Stream" do
+      it "returns self if n > limit" do
+        original = @stream.take(10)
+        original.take(11).must_equal original
+      end
+    end
   end
 
   describe "#each(func)" do

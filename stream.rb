@@ -93,6 +93,14 @@ class Stream
       nil
     end
 
+    def take(n)
+      if n > @length
+        self
+      else
+        super
+      end
+    end
+
     def map(&block)
       super.take(@length)
     end
