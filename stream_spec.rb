@@ -126,4 +126,25 @@ describe Stream do
       filtered[3].must_equal 8
     end
   end
+
+  describe ".continually(func)" do
+    it "returns a new Stream" do
+      Stream.continually {
+        true
+      }.kind_of?(Stream).must_equal true
+    end
+
+    it "returns a Stream with the calculated block as each element" do
+      stream_block = Proc.new do
+        counter = 0
+        Stream.continually {
+          counter += 1
+        }
+      end
+
+      stream_block.call.head.must_equal 1
+      stream_block.call.tail.head.must_equal 2
+      stream_block.call.tail.tail.head.must_equal 3
+    end
+  end
 end

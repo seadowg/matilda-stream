@@ -1,4 +1,10 @@
 class Stream
+  def self.continually(&block)
+    Stream.new(yield) do
+      Stream.continually(&block)
+    end
+  end
+
   attr_reader :head
 
   def initialize(head, &block)
