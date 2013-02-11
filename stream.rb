@@ -32,12 +32,12 @@ class Stream
   end
 
   def take(n)
-    FiniteStream.new(n, self.head) { @tail_block.call }
+    FiniteStream.new(n, self.head, &@tail_block)
   end
 
   def take_while(&block)
-    filter_proc = Proc.new { |argument| block.call(argument) }
-    MaybeFiniteStream.new(filter_proc, self.head) { @tail_block.call }
+    filter_proc = Proc.new(&block)
+    MaybeFiniteStream.new(filter_proc, self.head, &@tail_block)
   end
 
   def length
