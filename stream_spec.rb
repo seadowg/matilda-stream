@@ -68,6 +68,18 @@ describe Stream do
       end
     end
 
+    describe "when operating on the result Stream" do
+      it "returns a finite Stream for #map" do
+        stream = @stream.take(10).map { |i| i.to_s }
+        stream.length.must_equal 10
+      end
+
+      it "returns a finite Stream for #filter" do
+        stream = @stream.take(10).filter { |i| true }
+        stream.length.must_equal 10
+      end
+    end
+
     describe "for a finite Stream" do
       it "returns a Stream with length limit if n > limit" do
         original = @stream.take(10)
@@ -137,11 +149,27 @@ describe Stream do
         @stream.take_while { |i| i < 10 }.length.must_equal 9
       end
 
-      it "returns a Stream that iterates correctly" do
+      it "returns a Stream that iterates through finitely" do
         stream = @stream.take_while { |i| i < 10 }
         counter = 0
         stream.each { |i| counter += 1 }
         counter.must_equal 9
+      end
+
+      it "returns a finite Stream for #map" do
+        stream = @stream.take_while { |i|
+          i < 10
+        }.map { |i| i.to_s }
+
+        stream.length.must_equal 9
+      end
+
+      it "returns a finite Stream for #filter" do
+        stream = @stream.take_while { |i|
+          i < 10
+        }.filter { |i| true }
+
+        stream.length.must_equal 9
       end
     end
   end

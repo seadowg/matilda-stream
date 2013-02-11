@@ -24,6 +24,7 @@ class Stream
     else
       last_stream = self
       n.times {
+        return nil if last_stream.kind_of?(EmptyStream)
         last_stream = last_stream.tail
       }
 
@@ -31,28 +32,41 @@ class Stream
     end
   end
 
-  def take(n)
-    FiniteStream.new(n, self.head, &@tail_block)
-  end
-
-  def take_while(&block)
-    filter_proc = Proc.new(&block)
-    MaybeFiniteStream.new(filter_proc, self.head, &@tail_block)
-  end
-
   def length
-    while true do end
+    counter = 0
+    self.each { |ele| counter += 1 }
+    counter
   end
 
-  def each
+  def each(&block)
     last_stream = self
 
-    while true do
-      yield last_stream.head
+    until last_stream.kind_of?(EmptyStream)
+      block.call(last_stream.head)
       last_stream = last_stream.tail
     end
 
     nil
+  end
+
+  def take(n)
+    if n <= 0
+      EmptyStream.new
+    else
+      Stream.new(head) do
+        tail.take(n - 1)
+      end
+    end
+  end
+
+  def take_while(&block)
+    if block.call(head)
+      Stream.new(head) do
+        tail.take_while(&block)
+      end
+    else
+      EmptyStream.new
+    end
   end
 
   def map(&block)
@@ -73,75 +87,37 @@ class Stream
 
   private
 
-  class MaybeFiniteStream < Stream
-    def initialize(filter_func, head, &tail_block)
-      @head = head
-      @tail_block = tail_block
-      @filter_func = filter_func
+  class EmptyStream < Stream
+    def initialize()
+      @head = nil
     end
 
-    def length
-      counter = 0
-      self.each { |i| counter += 1 }
-      counter
-    end
-
-    def each
-      last_stream = self
-
-      while @filter_func.call(last_stream.head) do
-        yield last_stream.head
-        last_stream = last_stream.tail
-      end
-
-      nil
-    end
-  end
-
-  class FiniteStream < Stream
-    def initialize(limit, head, &tail_block)
-      @length = limit
-      @head = head
-      @tail_block = tail_block
+    def tail
+      EmptyStream.new
     end
 
     def [](n)
-      if n >= @length
-        nil
-      else
-        super(n)
-      end
-    end
-
-    def length
-      @length
+      nil
     end
 
     def each
-      last_stream = self
-
-      @length.times {
-        yield last_stream.head
-        last_stream = last_stream.tail
-      }
-
       nil
     end
 
     def take(n)
-      if n > @length
-        self
-      else
-        super
-      end
+      EmptyStream.new
+    end
+
+    def take_while(&block)
+      EmptyStream.new
     end
 
     def map(&block)
-      super.take(@length)
+      EmptyStream.new
     end
 
     def filter(&block)
-      super.take(@length)
+      EmptyStream.new
     end
   end
 end
