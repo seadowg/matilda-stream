@@ -32,8 +32,12 @@ class Stream
   end
 
   def take(n)
-    stream = FiniteStream.new(n, self.head) { @tail_block.call }
-    stream
+    FiniteStream.new(n, self.head) { @tail_block.call }
+  end
+
+  def take_while(&block)
+    filter_proc = Proc.new { |argument| block.call(argument) }
+    MaybeFiniteStream.new(filter_proc, self.head) { @tail_block.call }
   end
 
   def length
@@ -68,6 +72,31 @@ class Stream
   end
 
   private
+
+  class MaybeFiniteStream < Stream
+    def initialize(filter_func, head, &tail_block)
+      @head = head
+      @tail_block = tail_block
+      @filter_func = filter_func
+    end
+
+    def length
+      counter = 0
+      self.each { |i| counter += 1 }
+      counter
+    end
+
+    def each
+      last_stream = self
+
+      while @filter_func.call(last_stream.head) do
+        yield last_stream.head
+        last_stream = last_stream.tail
+      end
+
+      nil
+    end
+  end
 
   class FiniteStream < Stream
     def initialize(limit, head, &tail_block)

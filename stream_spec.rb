@@ -127,6 +127,25 @@ describe Stream do
     end
   end
 
+  describe "#take_while(func)" do
+    it "returns a new Stream" do
+      @stream.take_while { |i| i < 10 }.kind_of?(Stream).must_equal true
+    end
+
+    describe "when the return Stream is finite" do
+      it "returns a Stream with the correct length" do
+        @stream.take_while { |i| i < 10 }.length.must_equal 9
+      end
+
+      it "returns a Stream that iterates correctly" do
+        stream = @stream.take_while { |i| i < 10 }
+        counter = 0
+        stream.each { |i| counter += 1 }
+        counter.must_equal 9
+      end
+    end
+  end
+
   describe ".continually(func)" do
     it "returns a new Stream" do
       Stream.continually {
