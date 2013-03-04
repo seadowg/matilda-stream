@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative 'stream'
+require 'ruby-stream'
 
 def int_helper(i)
   Stream.new(i) do
