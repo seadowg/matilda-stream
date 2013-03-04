@@ -1,5 +1,7 @@
 #ruby-stream
 
+[![Build Status](https://travis-ci.org/oetzi/ruby-stream.png?branch=master)](https://travis-ci.org/oetzi/ruby-stream)
+
 Lazy stream implementation for Ruby because Enumerators are kinda silly.
 
 ## Description
