@@ -1,15 +1,15 @@
 require 'minitest/autorun'
 require 'ruby-stream'
 
-def int_helper(i)
-  Stream.new(i) do
-    int_helper(i + 1)
-  end
-end
-
 describe Stream do
   before do
-    @stream = int_helper(1)
+    int_helper = -> (i) {
+      Stream.new(i) {
+        int_helper.call(i + 1)
+      }
+    }
+
+    @stream = int_helper.call(1)
   end
 
   describe "#head" do
@@ -192,6 +192,22 @@ describe Stream do
       stream_block.call.head.must_equal 1
       stream_block.call.tail.head.must_equal 2
       stream_block.call.tail.tail.head.must_equal 3
+    end
+  end
+
+  describe "EmptyStream" do
+    it "ends the Stream" do
+      stream = -> (i) {
+        Stream.new(i) do
+          if i < 1
+            Stream::EmptyStream.new
+          else
+            stream.call(i - 1)
+          end
+        end
+      }
+
+      stream.call(10).length.must_equal(11)
     end
   end
 end

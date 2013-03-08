@@ -85,8 +85,6 @@ class Stream
     end
   end
 
-  private
-
   class EmptyStream < Stream
     def initialize()
       @head = nil
