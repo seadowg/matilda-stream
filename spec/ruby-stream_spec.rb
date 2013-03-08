@@ -3,7 +3,7 @@ require 'ruby-stream'
 
 describe Stream do
   before do
-    int_helper = -> (i) {
+    int_helper = lambda { |i|
       Stream.new(i) {
         int_helper.call(i + 1)
       }
@@ -197,7 +197,7 @@ describe Stream do
 
   describe "EmptyStream" do
     it "ends the Stream" do
-      stream = -> (i) {
+      stream = lambda { |i|
         Stream.new(i) do
           if i < 1
             Stream::EmptyStream.new
