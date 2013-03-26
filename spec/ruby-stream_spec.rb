@@ -174,6 +174,24 @@ describe Stream do
     end
   end
 
+  describe "#scan(func)" do
+    it "returns a new Stream" do
+      @stream.scan(0) { |x, i| i }.kind_of?(Stream).must_equal true
+    end
+
+    it "returns a Stream with a head equivelant to the passed zero" do
+      @stream.scan(-1) { |x, i| i }.head.must_equal -1
+    end
+
+    it "returns a Stream where each element of the tail is the result of feeding the zero (or result) and function through to each of the original elements" do
+      scan = @stream.scan(0) { |x, i| x + i }
+      scan[1].must_equal(1)
+      scan[2].must_equal(3)
+      scan[3].must_equal(6)
+      scan[100].must_equal(5050)
+    end
+  end
+
   describe ".continually(func)" do
     it "returns a new Stream" do
       Stream.continually {

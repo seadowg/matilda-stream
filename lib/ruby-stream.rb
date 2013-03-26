@@ -75,6 +75,12 @@ class Stream
     end
   end
 
+  def scan(zero, &block)
+    Stream.new(zero) do
+      tail.scan(block.call(zero, head), &block)
+    end
+  end
+
   def filter(&block)
     if block.call(head)
       Stream.new(head) do
