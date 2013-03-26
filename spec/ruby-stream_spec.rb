@@ -29,6 +29,12 @@ describe Stream do
     end
   end
 
+  describe "#last" do
+    it "returns the last element for finite Stream" do
+      @stream.take(5).last.must_equal 5
+    end
+  end
+
   describe "#[](n)" do
     it "calculates the nth element of the stream" do
       @stream[999].must_equal 1000

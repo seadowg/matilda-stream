@@ -16,6 +16,15 @@ class Stream
     @tail_block.call
   end
 
+  def last
+    result = nil
+    self.each do |ele|
+      result = ele
+    end
+
+    result
+  end
+
   def [](n)
     if n == 0
       self.head
