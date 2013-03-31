@@ -180,7 +180,7 @@ describe Stream do
     end
   end
 
-  describe "#scan(func)" do
+  describe "#scan(zero, func)" do
     it "returns a new Stream" do
       @stream.scan(0) { |x, i| i }.kind_of?(Stream).must_equal true
     end
@@ -189,7 +189,7 @@ describe Stream do
       @stream.scan(-1) { |x, i| i }.head.must_equal -1
     end
 
-    it "returns a Stream where each element of the tail is the result of feeding the zero (or result) and function through to each of the original elements" do
+    it "returns a Stream that is the scan of the receiver" do
       scan = @stream.scan(0) { |x, i| x + i }
       scan[1].must_equal(1)
       scan[2].must_equal(3)
@@ -200,6 +200,20 @@ describe Stream do
     it "works correctly with finite streams" do
       scan = @stream.take(5).scan(0) { |x, i| x + i }
       scan[5].must_equal 15
+    end
+  end
+
+  describe "#fold_left(zero, func)" do
+    it "returns the left fold for an finite Stream" do
+      sum = @stream.take(5).fold_left(1) { |memo, ele|
+        memo + ele
+      }
+      sum.must_equal 16
+    end
+
+    it "returns the zero value for empty lists" do
+      value = @stream.take(0).fold_left(101) { |i, j| j }
+      value.must_equal 101
     end
   end
 

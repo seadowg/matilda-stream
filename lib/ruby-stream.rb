@@ -90,6 +90,10 @@ class Stream
     end
   end
 
+  def fold_left(zero, &block)
+    self.scan(zero, &block).last
+  end
+
   def filter(&block)
     if block.call(head)
       Stream.new(head) do
