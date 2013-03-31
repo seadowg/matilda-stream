@@ -196,6 +196,11 @@ describe Stream do
       scan[3].must_equal(6)
       scan[100].must_equal(5050)
     end
+
+    it "works correctly with finite streams" do
+      scan = @stream.take(5).scan(0) { |x, i| x + i }
+      scan[5].must_equal 15
+    end
   end
 
   describe ".continually(func)" do

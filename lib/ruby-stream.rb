@@ -138,7 +138,9 @@ class Stream
     end
 
     def scan(zero, &block)
-      EmptyStream.new
+      Stream.new(zero) do
+        EmptyStream.new
+      end
     end
   end
 end
