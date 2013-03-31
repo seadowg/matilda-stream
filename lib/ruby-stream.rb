@@ -109,6 +109,10 @@ class Stream
       EmptyStream.new
     end
 
+    def last
+      nil
+    end
+
     def [](n)
       nil
     end
@@ -130,6 +134,10 @@ class Stream
     end
 
     def filter(&block)
+      EmptyStream.new
+    end
+
+    def scan(zero, &block)
       EmptyStream.new
     end
   end
