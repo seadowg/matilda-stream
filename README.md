@@ -45,6 +45,6 @@ will need to be prepared to wait, forever. No seriously, I mean for all
 time. Its infinite.
 
 Streams become most powerful when used with high order functions. At the
-moment ruby-stream supports `map` and `filter` operations that operate
+moment ruby-stream supports `map`, `filter`, `each`, `take` and `scan` operations that operate
 as they would on normal collections (these operations will only actually be
 applied to Stream elements on access or iteration however).
