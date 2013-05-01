@@ -215,6 +215,14 @@ describe Stream do
       value = @stream.take(0).fold_left(101) { |i, j| j }
       value.must_equal 101
     end
+
+    it "is aliased with 'inject'" do
+      @stream.method(:fold_left).must_equal @stream.method(:inject)
+    end
+
+    it "is aliased with 'reduce'" do
+      @stream.method(:fold_left).must_equal @stream.method(:reduce)
+    end
   end
 
   describe ".continually(func)" do

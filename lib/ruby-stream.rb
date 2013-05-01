@@ -94,6 +94,9 @@ class Stream
     self.scan(zero, &block).last
   end
 
+  alias :inject :fold_left
+  alias :reduce :fold_left
+
   def filter(&block)
     if block.call(head)
       Stream.new(head) do
