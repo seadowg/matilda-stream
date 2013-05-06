@@ -94,6 +94,24 @@ describe Stream do
     end
   end
 
+  describe "#drop(n)" do
+    it "returns another Stream" do
+      @stream.drop(1).kind_of?(Stream).must_equal true
+    end
+
+    it "returns a Stream that skips the first n elements of the original" do
+      stream = @stream.drop(5)
+      stream[0].must_equal 6
+      stream[1].must_equal 7
+    end
+
+    describe "for a finite Stream" do
+      it "returns a Stream with the correct length" do
+        @stream.take(5).drop(1).length.must_equal 4
+      end
+    end
+  end
+
   describe "#each(func)" do
     describe "for a finite Stream" do
       it "should return nil" do

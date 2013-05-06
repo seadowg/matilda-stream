@@ -78,6 +78,16 @@ class Stream
     end
   end
 
+  def drop(n)
+    if n <= 0
+      Stream.new(head) do
+        tail
+      end
+    else
+      tail.drop(n - 1)
+    end
+  end
+
   def map(&block)
     Stream.new(yield head) do
       tail.map(&block)
