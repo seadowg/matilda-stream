@@ -100,8 +100,19 @@ class Stream
     end
   end
 
-  def fold_left(zero, &block)
-    self.scan(zero, &block).last
+  def fold_left(*args, &block)
+    zero = args[0]
+    symbol = args[1] || args[0]
+
+    scan = if block
+      self.scan(zero, &block)
+    elsif args.length == 2
+      self.scan(zero, &symbol.to_proc)
+    elsif args.length == 1
+      self.drop(1).scan(head, &symbol.to_proc)
+    end
+
+    scan.last
   end
 
   alias :inject :fold_left
@@ -139,6 +150,10 @@ class Stream
     end
 
     def take(n)
+      EmptyStream.new
+    end
+
+    def drop(n)
       EmptyStream.new
     end
 

@@ -216,8 +216,8 @@ describe Stream do
     end
 
     it "works correctly with finite streams" do
-      scan = @stream.take(5).scan(0) { |x, i| x + i }
-      scan[5].must_equal 15
+      scan = @stream.take(1).scan(0) { |x, i| x + i }
+      scan[1].must_equal 1
     end
   end
 
@@ -234,12 +234,29 @@ describe Stream do
       value.must_equal 101
     end
 
+    it "allows the func to be a symbol" do
+      sum = @stream.take(5).fold_left(1, :+)
+      sum.must_equal 16
+    end
+
     it "is aliased with 'inject'" do
       @stream.method(:fold_left).must_equal @stream.method(:inject)
     end
 
     it "is aliased with 'reduce'" do
       @stream.method(:fold_left).must_equal @stream.method(:reduce)
+    end
+  end
+
+  describe "#fold_left(symbol)" do
+    it "returns the left fold for a finite Stream but skips the zero value step" do
+      sum = @stream.take(5).fold_left(:+)
+      sum.must_equal 15
+    end
+
+    it "returns nil for an empty Stream" do
+      sum = @stream.take(0).fold_left(:+)
+      sum.must_equal nil
     end
   end
 
