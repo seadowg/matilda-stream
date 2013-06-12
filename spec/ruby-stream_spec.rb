@@ -1,4 +1,4 @@
-require 'minitest/autorun'
+require 'spec_helper'
 require 'ruby-stream'
 
 describe Stream do
