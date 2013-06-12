@@ -1,6 +1,8 @@
 #ruby-stream
 
 [![Build Status](https://travis-ci.org/seadowg/ruby-stream.png?branch=master)](https://travis-ci.org/seadowg/ruby-stream)
+[![Coverage
+Status](https://coveralls.io/repos/seadowg/ruby-stream/badge.png)](https://coveralls.io/r/seadowg/ruby-stream)
 
 Lazy stream implementation for Ruby because Enumerators are kinda silly.
 
