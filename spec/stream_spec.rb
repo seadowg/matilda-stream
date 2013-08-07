@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ruby-stream'
+require 'matilda-stream'
 
 describe Stream do
   before do
